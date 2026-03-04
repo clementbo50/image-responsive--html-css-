@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image responsive cours</title>
+    <style>
+        html, body {
+            margin: 0;
+            height: 100vh;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex-grow: 1;
+        }
+        figure {
+            background-color: #ccc;
+            border: 1px solid black;
+            border-radius: 1rem;
+            padding: 1rem;
+            clear: both;
+            width: fit-content;
+        }
+        figcaption {
+            font-size: 1.8em;
+            font-style: oblique;
+            clear: both;
+        }
+
+        footer {
+            background-color: rgb(244, 32, 124, 0.7);
+            padding: 2rem;
+            border: 1px solid black;
+            clear: both;
+        }
+
+        .alignLeft {
+            float: left;
+            margin-right: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .alignRight {
+            float: right;
+            margin-left: 1rem;
+            margin-bottom: 0.3rem;
+        }
+    </style>
+</head>
+    <body>
+        <main>
+            <section>
+            <!--Les chemins relatif au document, on va chercher notre image depuis en partant de la ou est stocker index.html exemple ../<nom du dossier>/<img>
+            le chemin relatif à la raçine c'est simplemnt / <nom du dossier>/<nom de l'image  ici on part de la raçine du projet peu importe ou se trouve index.html -->
+
+            <!-- Pour l'accésisibilité il est important de définir l'attribut alt & title-->
+            
+            <!-- La valeur intrasec d'une image est ça valeur d'origine en dimension -->
+
+            <!-- Il faut éviter d'utiliser les attributs width et height pour les images bitmap mais les images vectorielle n'ayan pas de pixel peuvent etre utilisé ! -->
+
+            <!-- 
+            FLOAT :
+            L'attribut CSS float permet de faire flotter une image
+            à gauche ou à droite du conteneur.
+            Le texte qui suit va alors s'enrouler autour de l’image.
+
+            Exemple :
+            class="alignLeft"  → float: left;
+            class="alignRight" → float: right;
+
+            L’image sort du flux normal du document.
+            -->
+
+            <!-- 
+            CLEAR :
+            La propriété CSS clear empêche un élément
+            de se placer à côté d’un élément flottant.
+
+            clear: left;  → passe sous un float left
+            clear: right; → passe sous un float right
+            clear: both;  → passe sous tous les floats
+
+            On l’utilise souvent pour forcer un footer
+            ou un bloc à se placer sous des images flottantes.
+            -->
+
+            <p><img 
+                src="/images/bottle_1280.jpg"
+                alt="Image de bouteille entrain de flotter au millieu d'un océan sous un ciel bleu rosé" 
+                title="Bouteille au millieu de l'ocean"
+                class="alignLeft"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, delectus nesciunt. Illum repellendus, quibusdam totam ipsam consectetur, similique earum aspernatur harum nisi, et temporibus repudiandae minima facere qui esse debitis?</p>
+            <p>Earum modi hic excepturi doloremque esse commodi repellendus aperiam architecto quae reiciendis, obcaecati recusandae tempora odio assumenda soluta quam laborum, laudantium, quasi totam saepe quis autem perferendis! Nemo, cupiditate et!</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum maiores iure aspernatur beatae corporis cumque perspiciatis, numquam, voluptas omnis deserunt sint! Consequuntur accusamus odio repellendus sequi voluptatum quibusdam eaque sed?</p>
+
+            </section> 
+         <figure><img src="/images/product_1.jpg" alt="produits" title="produit 1"> <figcaption>Ceci est une légende</figcaption></figure>
+
+            </main>
+            <footer>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, nam. Accusamus, repudiandae sit? Eligendi, saepe? Odit provident, ad itaque eaque quod vitae praesentium ut excepturi dolor sapiente? Debitis, ex magni?</p>
+            </footer>
+    </body>
+</html>

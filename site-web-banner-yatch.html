@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/normalize.css">
+    <title>Banner Yacht</title>
+    <style>
+        #content {
+            padding: 1rem;
+            background-color: rgb(59, 165, 165);
+        }
+        #banner {
+            display: grid;
+        }
+
+        #banner picture, #banner > img {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        #banner  img {
+            width: 100%;
+            display: block;
+            height: 50vh;
+            object-fit: cover;
+        }
+
+        #banner #banner-txt {
+            grid-column: 1;
+            grid-row: 1;
+            align-self: end;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px 30px;
+            text-align: center;
+        }
+        #banner #banner-txt h1 {
+            color: var(--orange);
+            margin: 0;
+            padding: 30px 20px;
+            font-size: 2em;
+        }
+
+        #yacht {
+            display: grid;
+            align-items: center;
+        }
+
+        #yacht #yacht-img {
+            margin: 0;
+            padding: 30px;
+            background-color: #FF9700;
+        }
+
+        img.responsive {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #yacht #yacht-txt{
+            padding: 30px;
+            color: var(--dark-blue);
+            text-align: center;
+        }
+
+        #yacht #yacht-txt h1 {
+            font-size: 2.5em;
+        }
+
+        @media screen and (min-width: 768px){
+            #yacht {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+    <body>
+        <main> 
+            <section id="banner">
+                <!-- 
+                ==============================================
+                LA BALISE <picture> : ART DIRECTION
+                ==============================================
+
+                📌 QUAND UTILISER <picture> vs <img srcset/sizes> ?
+                -----------------------------------------------------
+                - <img srcset/sizes> → le navigateur choisit AUTOMATIQUEMENT
+                la meilleure image. On lui propose des tailles différentes
+                de la MÊME image. C'est une question de RÉSOLUTION.
+
+                - <picture> → le DÉVELOPPEUR décide MANUELLEMENT quelle
+                image afficher selon des conditions précises.
+                On peut proposer des images COMPLÈTEMENT DIFFÉRENTES.
+                C'est une question de DIRECTION ARTISTIQUE (Art Direction).
+
+                💡 Art Direction = adapter le CADRAGE / RECADRAGE de l'image
+                selon le contexte d'affichage.
+
+                Exemple concret :
+                - Desktop 1920px → photo panoramique large d'un yacht en mer
+                - Tablette portrait → photo recadrée verticalement, zoom sur le yacht
+                - Mobile paysage → photo recadrée horizontalement, format cinéma
+                - Mobile portrait → photo recadrée serrée, gros plan sur le yacht
+
+                → Ce ne sont PAS les mêmes images réduites,
+                ce sont des CADRAGES DIFFÉRENTS adaptés à chaque situation.
+                Impossible à faire avec srcset/sizes seul.
+
+
+                📌 FONCTIONNEMENT DE <picture> :
+                ----------------------------------
+                1. Le navigateur lit les <source> DE HAUT EN BAS
+                2. Il prend la PREMIÈRE <source> dont le media query correspond
+                3. S'il ne trouve aucune correspondance → il utilise le <img> (fallback)
+
+                ⚠️ L'ORDRE DES <source> EST CRUCIAL !
+                Le navigateur s'arrête au PREMIER match.
+                → Place les conditions les plus SPÉCIFIQUES en haut
+                → Place les conditions les plus GÉNÉRALES en bas
+
+                Dans cet exemple :
+                1. Écran ≥ 1200px           → banner_1920.jpg (paysage large, desktop)
+                2. Écran ≥ 768px + portrait  → banner_1200_portrait.jpg (tablette debout)
+                3. Écran ≥ 768px + landscape → banner_1200_landscape.jpg (tablette couchée)
+                4. Écran ≤ 768px + portrait  → banner_768_portrait.jpg (mobile debout)
+                5. Écran ≤ 768px + landscape → banner_768_landscape.jpg (mobile couché)
+                6. Aucun match               → <img> fallback banner_1920.jpg
+
+
+                📌 AUTRES CAS D'USAGE DE <picture> :
+                --------------------------------------
+                1. ART DIRECTION (recadrage) → comme dans cet exemple
+
+                2. FORMATS MODERNES avec fallback :
+                <picture>
+                    <source srcset="image.avif" type="image/avif">
+                    <source srcset="image.webp" type="image/webp">
+                    <img src="image.jpg" alt="...">
+                </picture>
+                → Le navigateur prend AVIF s'il le supporte, sinon WEBP, sinon JPG.
+
+                3. COMBINAISON des deux :
+                On peut mettre un srcset DANS un <source> pour combiner
+                art direction + résolution :
+                <source srcset="banner_768.jpg 768w, banner_1200.jpg 1200w" 
+                        media="(orientation: landscape)">
+
+
+                📌 RÉSUMÉ : QUAND CHOISIR QUOI ?
+                -----------------------------------
+                ┌─────────────────────────────────┬──────────────────────┐
+                │ Besoin                          │ Solution             │
+                ├─────────────────────────────────┼──────────────────────┤
+                │ Même image, tailles différentes │ <img srcset + sizes> │
+                │ Images recadrées / différentes  │ <picture>            │
+                │ Formats modernes (avif, webp)   │ <picture>            │
+                │ Orientation portrait/paysage    │ <picture>            │
+                └─────────────────────────────────┴──────────────────────┘
+
+                ⚠️ IMPORTANT :
+                - Le <img> à l'intérieur de <picture> est OBLIGATOIRE
+                - C'est lui qui affiche l'image (les <source> ne sont que des instructions)
+                - C'est aussi le fallback pour les vieux navigateurs
+                - L'attribut alt="" doit être sur le <img>, PAS sur les <source>
+                -->
+
+                <picture>
+                    <source srcset="images/banner_1920.jpg" media="(min-width: 1200px)">
+                    <source srcset="images/banner_1200_portrait.jpg" media="(min-width: 768px) and (orientation: portrait)">
+                    <source srcset="images/banner_1200_landscape.jpg" media="(min-width: 768px) and (orientation: landscape)">
+                    <source srcset="images/banner_768_portrait.jpg" media="(max-width: 768px) and (orientation: portrait)">
+                    <source srcset="images/banner_768_landscape.jpg" media="(max-width: 768px) and (orientation: landscape)">
+                    <img src="images/banner_1920.jpg" alt="Lorem ipsum dolor sit amet">
+                </picture>
+
+
+                <div id="banner-txt">
+                    <h1>Lorem ipsum dolor sit amet.</h1>
+                </div>
+            </section>
+
+            <section id="content">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At deserunt pariatur dicta aliquam ex.</p>
+                <p>Cumque itaque, consequuntur, corrupti id neque ab, consequatur rem eligendi ipsum nihil ipsam rerum!</p>
+                <p>Officiis nihil libero, nobis doloribus debitis, mollitia fuga totam minus dignissimos iure enim reprehenderit!</p>
+                <p>Magnam doloribus aspernatur, fugit, nobis, nesciunt aperiam autem accusantium nulla modi officiis quaerat? Iure?</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est blanditiis quaerat animi maiores ipsum?</p>
+                <p>Similique saepe sit eum adipisci, nesciunt suscipit nihil! Vero nam aperiam laudantium veniam veritatis.</p>
+                <p>Ipsa eligendi architecto quisquam necessitatibus ducimus? Nulla perferendis commodi consequuntur aliquam maiores animi sed.</p>
+                <p>Nihil dignissimos corrupti, quod atque consectetur odit architecto sunt doloribus dolores repellat inventore voluptatibus!</p>
+                <p>Voluptatum expedita non assumenda, quidem, voluptatibus in culpa porro adipisci reiciendis ipsum eligendi sed.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat reprehenderit dicta inventore dolore sint. Eaque, a perspiciatis?</p>
+                <p>Quo eos excepturi, recusandae harum dolore iure assumenda, quod accusamus totam explicabo deleniti provident ipsa sapiente in!</p>
+                <p>Commodi eveniet amet similique consectetur quia atque eius saepe sunt tenetur vel iure, sint, perferendis voluptatum natus?</p>
+                <p>Unde eius veniam quos qui corporis aliquid perspiciatis? Ipsa excepturi eaque, aliquid ipsam nobis optio temporibus doloremque.</p>
+                <p>Voluptatem suscipit a quidem ducimus magnam placeat possimus ipsum nesciunt consequatur odit! Voluptatibus eligendi et nobis aliquam.</p>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque modi eveniet alias, cumque magni officia labore maiores.</p>
+                <p>Saepe fugit at libero voluptate aut illo eligendi culpa, alias animi quos ducimus numquam nam ea quibusdam.</p>
+                <p>Non fugit, nulla aut adipisci placeat vero enim doloremque dolorem animi rerum aspernatur asperiores odit odio nostrum!</p>
+                <p>Totam nemo culpa, explicabo iste ad mollitia, quod cupiditate natus porro perferendis quaerat ex accusantium sapiente at?</p>
+                <p>Facere tenetur odio soluta culpa sed expedita ad quod doloribus, quaerat deleniti repellat asperiores est nihil quas.</p>
+            </section>
+
+            <section id="yacht">
+
+                <!-- Pour rendre une image fluide (responsive) à son conteneur,
+                    il faut contrôler sa valeur intrinsèque en utilisant la propriété max-width: 100%;
+                    
+                    Pourquoi ?
+                    - Par défaut, une image s'affiche à sa taille intrinsèque (sa taille réelle en pixels).
+                    - Si l'image est plus large que son conteneur, elle déborde (overflow).
+                    - Avec max-width: 100%, on lui dit : "ne dépasse JAMAIS la largeur de ton parent".
+                    - L'image peut être plus petite que son conteneur, mais jamais plus grande.
+                    
+                    Complément utile :
+                    - On ajoute souvent height: auto; pour conserver le ratio (proportions)
+                    et éviter que l'image ne soit déformée/écrasée.
+                    - display: block; est aussi recommandé pour supprimer le petit espace blanc
+                    sous l'image (causé par le comportement inline par défaut des <img>).
+                    
+                    Résumé :
+                    img {
+                        max-width: 100%;   → ne déborde pas du parent
+                        height: auto;      → garde ses proportions
+                        display: block;    → supprime l'espace fantôme en bas
+                    }
+                -->
+
+                <div id="yacht-img">
+
+                    <!-- 
+                        ==============================================
+                        IMAGES RESPONSIVES : srcset & sizes
+                        ==============================================
+
+                        📌 SRCSET (Source Set) :
+                        ------------------------
+                        L'attribut srcset propose au navigateur une LISTE d'images
+                        avec leurs largeurs INTRINSÈQUES (réelles en pixels).
+
+                        L'unité "w" (width descriptor) représente la largeur RÉELLE
+                        de l'image en pixels, telle qu'elle a été exportée/enregistrée.
+
+                        Exemple :
+                        yacht_512.webp 512w  → ce fichier fait 512px de large
+                        yacht_1920.webp 1920w → ce fichier fait 1920px de large
+
+                        ⚠️ "w" n'est PAS une unité CSS, c'est une indication
+                        pour le navigateur sur la taille réelle du fichier image.
+
+                        Le navigateur utilise cette info + la densité de l'écran (1x, 2x, 3x)
+                        + la taille d'affichage (définie par sizes) pour choisir
+                        automatiquement l'image la plus adaptée.
+
+
+                        📌 SIZES :
+                        -----------
+                        L'attribut sizes dit au navigateur QUELLE PLACE l'image
+                        va occuper à l'écran selon la taille du viewport (fenêtre).
+
+                        C'est grâce à sizes que le navigateur sait quelle image
+                        du srcset est la plus pertinente à télécharger.
+
+                        Exemple :
+                        sizes="(max-width: 768px) 100vw, 50vw"
+
+                        Traduction :
+                        - SI l'écran fait 768px ou moins → l'image occupe 100vw (100% de la largeur de l'écran)
+                        - SINON (écrans plus larges)     → l'image occupe 50vw (50% de la largeur de l'écran)
+
+                        💡 POURQUOI UTILISER "vw" PLUTÔT QUE "px" DANS SIZES ?
+                        --------------------------------------------------------
+                        - vw (viewport width) est RELATIF à la fenêtre du navigateur.
+                        - C'est la meilleure unité pour sizes car elle reflète
+                        la réalité du layout responsive.
+
+                        Avec 50vw, le navigateur sait que sur un écran de 1200px,
+                        l'image sera affichée à 600px (1200 × 0.5).
+                        → Il choisit alors yacht_600.webp (le plus proche de 600px).
+
+                        Sur un écran Retina 2x de 1200px avec 50vw :
+                        → Le navigateur a besoin de 1200px réels (600 × 2)
+                        → Il choisit yacht_1200.webp
+
+                        ⚠️ Avec des valeurs en px fixes (ex: 512px, 990px),
+                        le navigateur ne peut PAS s'adapter à la densité
+                        de pixels ni au layout fluide. C'est moins flexible.
+
+
+                        📌 RÉSUMÉ DU FONCTIONNEMENT :
+                        -------------------------------
+                        1. Le navigateur lit sizes → "l'image fera 50vw"
+                        2. Il calcule : viewport 1400px × 0.5 = 700px nécessaires
+                        3. Il regarde srcset → quelle image est la plus proche de 700px ?
+                        4. Il télécharge yacht_990.webp (la plus adaptée)
+                        5. Sur un écran Retina 2x, il aurait besoin de 1400px
+                        → il télécharge yacht_1920.webp
+
+                        🎯 AVANTAGE :
+                        Le navigateur ne télécharge QUE l'image nécessaire.
+                        = Moins de bande passante gaspillée
+                        = Chargement plus rapide
+                        = Meilleure expérience utilisateur
+
+
+                        srcset = QUOI est disponible (liste des images + tailles réelles en w)
+                        sizes  = COMMENT l'image sera affichée (place occupée en vw selon l'écran)
+                        Le navigateur fait le reste ! 🚀
+                        -->
+                <img 
+                    srcset="images/yacht_512.webp 512w, images/yacht_600.webp 600w, images/yacht_990.webp 990w, images/yacht_1200.webp 1200w, images/yacht_1920.webp 1920w"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    src="images/yacht_1920.webp"
+                    alt="Lorem ipsum dolor sit amet" 
+                    class="responsive">
+                </div>
+                <div id="yacht-txt">
+                    <h1>Yachting</h1>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+                    <a href="#" class="btn btn-blue-outline">En savoir plus</a>
+                </div>
+            </section><!--end #yacht section-->
+        </main>
+    </body>
+</html>
